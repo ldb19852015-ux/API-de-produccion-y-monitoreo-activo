@@ -1,8 +1,11 @@
 import os
 
+from dotenv import load_dotenv
 from redis import Redis
 
 from app.graph import build_agent_graph
+
+load_dotenv()
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 redis_client = Redis.from_url(REDIS_URL)
@@ -25,5 +28,5 @@ def run_background_task(job_id: str, task_text: str):
             redis_client.hset(f"job:{job_id}", mapping={"status": "DONE", "result": str(result)})
             
     except Exception as e:  # noqa: BLE001
-        # Manejo robusto de errores: ante cualquier fallo, el estado pasa a FAILED
+        # Ante cualquier fallo, el estado pasa a FAILED para evitar polling infinito
         redis_client.hset(f"job:{job_id}", mapping={"status": "FAILED", "error": str(e)})
