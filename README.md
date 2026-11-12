@@ -12,18 +12,18 @@ API REST desarrollada con **FastAPI**, persistencia de estado con **Redis**, obs
 
 ---
 
-### 🧪 Pruebas y Concurrencia
-El proyecto incluye un script de prueba automatizado (`test_concurrent.py`) para verificar el encolado de tareas asíncronas en paralelo bajo Redis Cloud.
-
-Para ejecutar la prueba con el servidor corriendo:
-```bash
-python test_concurrent.py
-
----
-
-#### 📸 Evidencias del Sistema (Screenshots)
+### 📸 Evidencias del Sistema (Screenshots)
 En la carpeta screenshots/ se adjuntan las capturas de referencia que documentan:
 
 uvicorn.png: Servidor FastAPI en ejecución asincrónica procesando peticiones HTTP 200 OK.
 
 test_concurrent.png: Ejecución exitosa de 5 peticiones concurrentes devolviendo sus respectivos job_id y estados PENDING.
+
+---
+
+#### 🧪 Pruebas y Concurrencia
+El proyecto incluye un script de prueba automatizado (`test_concurrent.py`) para verificar el encolado de tareas asíncronas en paralelo bajo Redis Cloud.
+
+Para ejecutar la prueba con el servidor corriendo:
+```bash
+python test_concurrent.py
