@@ -1,13 +1,22 @@
-from langgraph.checkpoint.memory import MemorySaver
+import os
+
+from dotenv import load_dotenv
+from langgraph.checkpoint.redis import RedisSaver
 from langgraph.graph import END, StateGraph
 from langgraph.types import interrupt
+from redis import Redis
 
 from app.observability import init_observability
 
+load_dotenv()
 init_observability()
 
-# Usamos MemorySaver para guardar los estados en memoria interna y chau problemas con Redis
-memory = MemorySaver()
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+
+# Inicializamos el cliente Redis y se lo pasamos explícitamente por keyword argument
+redis_conn = Redis.from_url(REDIS_URL)
+memory = RedisSaver(redis_client=redis_conn)
+memory.setup()
 
 def build_agent_graph():
     workflow = StateGraph(dict)
